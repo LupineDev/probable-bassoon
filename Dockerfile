@@ -7,11 +7,17 @@ FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
 # Rails app lives here
 WORKDIR /rails
 
+# Override prod build args from docker docker compose
+ARG RAILS_ENV=production
+ARG BUNDLE_DEPLOYMENT=1
+ARG BUNDLE_PATH=/usr/local/bundle
+ARG BUNDLE_WITHOUT=development
+
 # Set production environment
-ENV RAILS_ENV="production" \
-    BUNDLE_DEPLOYMENT="1" \
-    BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development"
+ENV RAILS_ENV=${RAILS_ENV} \
+    BUNDLE_DEPLOYMENT=${BUNDLE_DEPLOYMENT} \
+    BUNDLE_PATH=${BUNDLE_PATH} \
+    BUNDLE_WITHOUT=${BUNDLE_WITHOUT}
 
 
 # Throw-away build stage to reduce size of final image

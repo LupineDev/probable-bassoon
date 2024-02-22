@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:16.2-alpine
+    volumes:
+      - db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=password
+  web:
+    build:
+      context: .
+      args:
+        - RAILS_ENV=development
+        - BUNDLE_DEPLOYMENT=0
+        - BUNDLE_WITHOUT=
+    command: bash -c "bin/rails server -b 0.0.0.0"
+    tty: true
+    stdin_open: true
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/rails
+      - bundle:/usr/local/bundle
+    environment:
+      - BUNDLE_PATH=/usr/local/bundle
+      - DATABASE_HOST=db
+      - DATABASE_PASSWORD=password
+    depends_on:
+      - db
+
+volumes:
+  db: {}
+  bundle: {}
