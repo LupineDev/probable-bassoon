@@ -10,13 +10,12 @@ WORKDIR /rails
 # Override prod build args from docker docker compose
 ARG RAILS_ENV=production
 ARG BUNDLE_DEPLOYMENT=1
-ARG BUNDLE_PATH=/usr/local/bundle
 ARG BUNDLE_WITHOUT=development
 
 # Set production environment
 ENV RAILS_ENV=${RAILS_ENV} \
     BUNDLE_DEPLOYMENT=${BUNDLE_DEPLOYMENT} \
-    BUNDLE_PATH=${BUNDLE_PATH} \
+    BUNDLE_PATH=/usr/local/bundle \
     BUNDLE_WITHOUT=${BUNDLE_WITHOUT}
 
 
