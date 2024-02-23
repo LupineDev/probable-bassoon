@@ -9,6 +9,9 @@ update:
 bash:
 	$(DC_RUN) web bash
 
+bash_test:
+	$(DC_RUN) -e RAILS_ENV=test web bash
+
 run:
 	$(DC_RUN) --service-ports web
 
