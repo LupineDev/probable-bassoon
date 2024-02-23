@@ -7,7 +7,7 @@ class Node < ApplicationRecord
   def self.lowest_common_ancestor(id_a, id_b)
     node_a = find_by(id: id_a)
     node_b = find_by(id: id_b)
-    if !node_a || !node_b
+    if node_a.nil? || node_b.nil?
       return NOT_FOUND
     end
 
