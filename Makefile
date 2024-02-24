@@ -8,14 +8,17 @@ update:
 	$(DC_RUN) web bundle install -j 4
 	docker compose build
 
+run:
+	$(DC_RUN) --service-ports web
+
 bash:
 	$(DC_RUN) web bash
 
 bash_test:
 	$(DC_RUN) -e RAILS_ENV=test web bash
 
-run:
-	$(DC_RUN) --service-ports web
+rspec:
+	$(DC_RUN) -e RAILS_ENV=test web bundle exec rspec
 
 reset:
 	docker compose stop

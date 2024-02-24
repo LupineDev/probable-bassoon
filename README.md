@@ -1,26 +1,52 @@
 # probable-bassoon
-Tree-node coding challenge
+This is the rails app for Tree-node coding challenge
 
 ## README
-This README would normally document whatever steps are necessary to get the
-application up and running.
 
-Things you may want to cover:
 
-* Ruby version
+## Ruby & Rails Version
+Created with Ruby 3.3.0 and Rails 7.1.3.2
 
-* System dependencies
+## Running Locally
 
-* Configuration
+### System dependencies
+Project is dockerized for development and requires following dependencies to run
+- docker (with buildx and compose plugins)
+- make
 
-* Database creation
+### Initial Setup
+To build the required docker containers then initialize and seed the database. **NOTE:** only seeded with node data from `data/nodes.csv` No birds data are seeded.
+```
+make bootstrap
+```
 
-* Database initialization
+### Working With the Application
+Launch the local server on port `3000`
+```
+make run
+```
 
-* How to run the test suite
+Start a shell in development Rails `development` environment
+```
+make bash
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+Run the test suite
+```
+make rspec
+```
 
-* Deployment instructions
+Start a shell in development Rails `test` environment (usually for running indivitual tests)
+```
+make bash
+```
 
-* ...
+To rubuild the docker images afer making changes to `Dockerfile` or `Gemfile`
+```
+make update
+```
+
+Wiping local database and re-initizing & seeding
+```
+make reset
+```
