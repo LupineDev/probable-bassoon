@@ -7,3 +7,15 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+require 'csv'
+puts "Seeding nodes, there are #{Node.count} nodes currently... "
+
+csv = CSV.read('data/nodes.csv', headers: true)
+node_data = []
+csv.each do |row|
+  node_data << { id: row["id"], parent_id: row["parent_id"] }
+end
+Node.insert_all(node_data)
+
+puts "Done! There are now #{Node.count} nodes."

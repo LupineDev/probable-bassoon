@@ -1,5 +1,7 @@
 DC_RUN=docker compose run -u root --rm
 
+bootstrap: reset
+
 update:
 	docker compose build
 	docker compose stop
@@ -18,3 +20,5 @@ run:
 reset:
 	docker compose stop
 	docker compose down -v
+	$(DC_RUN) web bundle install -j 4
+	$(DC_RUN) web bin/rails db:setup
