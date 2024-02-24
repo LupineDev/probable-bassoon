@@ -1,4 +1,5 @@
 require 'rails_helper'
+
 require './spec/support/node_helper.rb'
 
 RSpec.describe CommonAncestorController, type: :controller do

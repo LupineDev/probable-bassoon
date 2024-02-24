@@ -1,6 +1,7 @@
 class Node < ApplicationRecord
   belongs_to :parent, class_name: 'Node', optional: true
   has_many :children, class_name: 'Node', inverse_of: :parent
+  has_many :birds, dependent: :destroy, inverse_of: :node
 
   NOT_FOUND = {root_id: nil, lowest_common_ancestor: nil, depth: nil}
 
@@ -25,6 +26,22 @@ class Node < ApplicationRecord
     return result
   end
 
+  def self.descendant_ids(ids)
+    id_list = ids.dup
+    return id_list if id_list.empty?
+
+    next_generation_ids = where(parent_id: id_list).ids
+
+
+    while next_generation_ids.present? do
+      id_list += next_generation_ids
+      next_generation_ids = where(parent_id: next_generation_ids).ids
+    end
+
+    return id_list.uniq
+  end
+
+
   def ancestor_ids
     ids = [id]
 
@@ -36,4 +53,5 @@ class Node < ApplicationRecord
 
     return ids
   end
+
 end

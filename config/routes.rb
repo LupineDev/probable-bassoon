@@ -8,5 +8,6 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
+  get "/birds", to: "birds#index"
   get "/common_ancestor", to: "common_ancestor#index"
 end
