@@ -41,6 +41,8 @@ class Node < ApplicationRecord
     return id_list.uniq
   end
 
+  class BootstrapParadoxError < StandardError
+  end
 
   def ancestor_ids
     ids = [id]
@@ -49,6 +51,9 @@ class Node < ApplicationRecord
     while next_ancestor do
       ids.prepend next_ancestor.id
       next_ancestor = next_ancestor.parent
+      if ids.count != ids.uniq.count
+        raise BootstrapParadoxError.new("The following nodes have circular ancestory: #{ids}")
+      end
     end
 
     return ids

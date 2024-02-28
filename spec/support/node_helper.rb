@@ -7,5 +7,9 @@ def seed_test_nodes
     {id: 5497637, parent_id: 4430546},
     # Separate root
     {id: 9, parent_id: nil},
+    # Circlular Tree
+    {id: 1234, parent_id: 12345},
+    {id: 12345, parent_id: 123456},
+    {id: 123456, parent_id: 1234},
   ])
 end

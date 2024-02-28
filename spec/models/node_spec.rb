@@ -56,5 +56,11 @@ RSpec.describe Node, type: :model do
       n2 = Node.find(2820230)
       expect(n2.ancestor_ids).to eq([130, 125, 2820230])
     end
+
+    specify "raises an exception when node data is cyclical" do
+      expect {
+        Node.find(1234).ancestor_ids
+      }.to raise_error(Node::BootstrapParadoxError)
+    end
   end
 end
