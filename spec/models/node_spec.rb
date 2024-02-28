@@ -47,6 +47,12 @@ RSpec.describe Node, type: :model do
     specify "returns an array of only itself if no child nodes exist" do
       expect(Node.descendant_ids([9]).sort).to eq([9])
     end
+
+    specify "circular nodes don't infinite loop" do
+      Timeout::timeout(2) {
+        expect(Node.descendant_ids([1234]).sort).to eq([1234, 12345, 123456])
+      }
+    end
   end
 
   describe "#ancestor_ids" do
