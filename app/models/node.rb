@@ -17,8 +17,8 @@ class Node < ApplicationRecord
       result = NOT_FOUND
     else
       result = {
-        root_id: common_ancestors.first,
-        lowest_common_ancestor: common_ancestors.last,
+        root_id: common_ancestors.last,
+        lowest_common_ancestor: common_ancestors.first,
         depth: common_ancestors.length
       }
     end
@@ -47,18 +47,31 @@ class Node < ApplicationRecord
   end
 
   def ancestor_ids
-    ids = [id]
+    id_conditional = self.class.sanitize_sql_for_conditions(['id=?',id])
+    sql_string = <<-SQL
+    WITH RECURSIVE ancestors AS (
+        SELECT id, parent_id
+        FROM nodes
+        WHERE #{id_conditional}
+      UNION
+        SELECT nodes.id, nodes.parent_id
+        FROM nodes
+          JOIN ancestors ON nodes.id = ancestors.parent_id
+    )
+    SELECT id FROM ancestors;
+    SQL
 
-    next_ancestor = parent
-    while next_ancestor do
-      ids.prepend next_ancestor.id
-      next_ancestor = next_ancestor.parent
-      if ids.count != ids.uniq.count
-        raise BootstrapParadoxError.new("The following nodes have circular ancestory: #{ids}")
-      end
-    end
-
+    query_result = self.class.connection.execute(sql_string)
+    ids = query_result.to_a.map(&:values).flatten
+    validate_root(ids.last)
+  
     return ids
   end
 
+  private
+
+  def validate_root(root_id)
+    # If the node we beleive is root has a parent, this is a circlular reference
+    raise BootstrapParadoxError if !Node.exists?(id: root_id, parent_id: nil)
+  end
 end

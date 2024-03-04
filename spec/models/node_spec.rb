@@ -58,9 +58,9 @@ RSpec.describe Node, type: :model do
   describe "#ancestor_ids" do
     specify "returns a descending array of ancestor ids starting from root, ending with itself" do
       n1 = Node.find(5497637)
-      expect(n1.ancestor_ids).to eq([130, 125, 4430546, 5497637])
+      expect(n1.ancestor_ids).to eq([5497637, 4430546, 125, 130])
       n2 = Node.find(2820230)
-      expect(n2.ancestor_ids).to eq([130, 125, 2820230])
+      expect(n2.ancestor_ids).to eq([2820230, 125, 130])
     end
 
     specify "raises an exception when node data is cyclical" do
