@@ -26,23 +26,6 @@ class Node < ApplicationRecord
     return result
   end
 
-  def self.descendant_ids(ids)
-    id_list = ids.dup
-    return id_list if id_list.empty?
-
-    next_generation_ids = where(parent_id: id_list).ids
-
-    while next_generation_ids.present? do
-      id_list = (id_list + next_generation_ids).uniq
-      next_generation_ids = where(parent_id: next_generation_ids).ids
-      # don't search ids we already found in the next generation
-      # to avoid infinite loops
-      next_generation_ids -= id_list
-    end
-
-    return id_list
-  end
-
   class BootstrapParadoxError < StandardError
   end
 

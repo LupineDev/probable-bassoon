@@ -38,23 +38,6 @@ RSpec.describe Node, type: :model do
     end
   end
 
-  describe ".descendant_ids" do
-    specify "returns an  array of child ids, children's child ids... etc  including their own" do
-      expect(Node.descendant_ids([125, 4430546]).sort).to eq([125, 2820230, 4430546, 5497637].sort)
-      expect(Node.descendant_ids([4430546]).sort).to eq([4430546, 5497637].sort)
-    end
-
-    specify "returns an array of only itself if no child nodes exist" do
-      expect(Node.descendant_ids([9]).sort).to eq([9])
-    end
-
-    specify "circular nodes don't infinite loop" do
-      Timeout::timeout(2) {
-        expect(Node.descendant_ids([1234]).sort).to eq([1234, 12345, 123456])
-      }
-    end
-  end
-
   describe "#ancestor_ids" do
     specify "returns a descending array of ancestor ids starting from root, ending with itself" do
       n1 = Node.find(5497637)
