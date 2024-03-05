@@ -7,5 +7,9 @@ def seed_test_birds
     {id: 5, node_id: 5497637},
     # Separate root
     {id: 6, node_id: 9},
+    # Circlular Tree
+    {id: 7, node_id: 1234},
+    {id: 8, node_id: 12345},
+    {id: 9, node_id: 123456},
   ])
 end

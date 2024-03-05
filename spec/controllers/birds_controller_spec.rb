@@ -12,7 +12,7 @@ RSpec.describe BirdsController, type: :controller do
   describe "GET#index" do
     specify "takes an array of node_ids and returns ids of birds belonging to nodes or their descendants" do
       get :index, params: {node_ids: [125, 2820230, 9]}
-      expect(response.body).to eq({bird_ids: [3,4,5,6]}.to_json)
+      expect(response.body).to eq({bird_ids: [6,3,4,5]}.to_json)
       expect(response.status).to eq(200)
     end
 
