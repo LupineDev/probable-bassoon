@@ -6,6 +6,7 @@ services:
       - db:/var/lib/postgresql/data
     environment:
       - POSTGRES_PASSWORD=password
+    command: postgres -c enable_hashjoin=off
   web:
     build:
       context: .
